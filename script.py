@@ -52,9 +52,13 @@ for i in range(maxPages-1):
 
         #Check if keywords in description
         text = block.find("p").text
-        if "software" or "frontend" or"backend" or "developer" or"Computer" in text:
+        if "software" or "frontend" or"backend" or "developer" or "Computer" in text:
+            if "Electrical" in text:
+                continue
             data.append([positionTitle, companyName, link, startDate,endDate, text])
         elif "HTML" or "Javascript" or "JS" or "Python" or "React" or "Java" or "CSS" in text:
+            if "Electrical" in text:
+                continue
             data.append([positionTitle, companyName, link, startDate,endDate, text])
         else:
             continue
