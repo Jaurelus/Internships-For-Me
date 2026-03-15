@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 pageNum=1
-ucfLink= f"https://career.ucf.edu/jobs/page/{pageNum}/?ctag%5B0%5D=internships&stag%5B0%5D=information-technology&stag%5B1%5D=stem&sort=date"
+ucfLink= "https://career.ucf.edu/jobs/page/1/?ctag%5B0%5D=internships&stag%5B0%5D=information-technology&stag%5B1%5D=stem&sort=date"
 
 
 positionTitles= []
@@ -19,8 +19,9 @@ pagDiv = pagDiv.find_all(class_="page-numbers")
 maxPages = int(pagDiv[4].text[-2:])
 
 for i in range(maxPages-1):
+    iterateLink = f"https://career.ucf.edu/jobs/page/{i+1}/?ctag%5B0%5D=internships&stag%5B0%5D=information-technology&stag%5B1%5D=stem&sort=date"
     print(i)
-    response = requests.get(ucfLink)
+    response = requests.get(iterateLink)
     soup = BeautifulSoup(response.text, "html.parser")
     #Handle pagination conflicts
 
@@ -62,6 +63,7 @@ for i in range(maxPages-1):
             data.append([positionTitle, companyName, link, startDate,endDate, text])
         else:
             continue
-    df= pd.DataFrame(data,columns=["Position Title", "Company", "URL", "Opening Date", "Closing Date", "Description"])
-    print(df)
-    df.to_excel("Internships.xlsx", index=False)
+    
+df= pd.DataFrame(data,columns=["Position Title", "Company", "URL", "Opening Date", "Closing Date", "Description"])
+print(df)
+df.to_excel("Internships.xlsx", index=False)
